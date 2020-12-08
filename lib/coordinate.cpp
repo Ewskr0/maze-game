@@ -25,11 +25,13 @@ struct offset2d
     {
         return (dx < o.dx && dy < o.dy);
     }
+
     offset2d &operator+=(const offset2d &o)
     {
         dx += o.dx;
         dy += o.dy;
     }
+
     offset2d &operator-=(const offset2d &o)
     {
         dx -= o.dx;
@@ -45,8 +47,7 @@ struct offset2d
         return offset2d({dx - other.dx, dy - other.dy});
     }
 
-    coord dx,
-        dy;
+    coord dx, dy;
 };
 
 // Defines a point in the grid, mainly a pair of coordinates.
@@ -82,8 +83,7 @@ struct point2d
         y -= o.dy;
     }
 
-    coord x,
-        y;
+    coord x, y;
 };
 
 point2d operator+(const point2d &p, const offset2d &o)
@@ -107,6 +107,7 @@ offset2d operator-(const point2d &p1, const point2d &p2)
     return offset2d({p1.x - p2.x, p1.y - p2.y});
 }
 
+/*
 template <>
 struct std::less<point2d>
 {
@@ -120,3 +121,4 @@ struct std::less<offset2d>
     // todo : Look up where std::less is used,
     // then implement it
 };
+*/

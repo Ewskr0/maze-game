@@ -1,5 +1,6 @@
-#include "coordinate.cpp"
+#include <cstddef>
 
+#include "coordinate.cpp"
 
 // Macro to define YOUR_STORAGE_TYPE
 #define YOUR_STORAGE_TYPE storage
@@ -31,8 +32,8 @@ public:
   // a runtime_error has to be thrown
   explicit storage(size_t n);
   // todo
-  storage(const storage& other) = default;
-  storage& operator=(const storage& other) = default;
+  storage(const storage &other) = default;
+  storage &operator=(const storage &other) = default;
 
   // Accessing a point outside of the
   // storage has to throw an exception
@@ -44,7 +45,7 @@ public:
   // todo
 
   // Check if a given point exists within this representation
-  bool has_point(const point2d& p) const;
+  bool has_point(const point2d &p) const;
   // todo
 
   // This function should RESERVE (like the function for std::vector)
@@ -59,7 +60,7 @@ public:
   // todo
 
   // Convenience accessor
-  YOUR_STORAGE_TYPE& get_storage();
+  YOUR_STORAGE_TYPE &get_storage();
   // todo
 
 protected:

@@ -1,8 +1,16 @@
 {
     "files.associations": {
+        "*.hpp": "cpp",
         "iosfwd": "cpp",
         "vector": "cpp",
         "xstring": "cpp",
-        "xutility": "cpp"
-    }
+        "xutility": "cpp",
+        "type_traits": "cpp"
+    },
+    "extensions.ignoreRecommendations": true,
+    "files.autoSave": "off",
+    "typescript.tsc.autoDetect": "off",
+    "npm.autoDetect": "off",
+    "debug.allowBreakpointsEverywhere": true,
+    "html.autoClosingTags": false
 }
