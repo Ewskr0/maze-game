@@ -1,13 +1,7 @@
+#include <memory>
+
 #include "coordinate.cpp"
 
-// !! ATTENTION !!//
-// Copy your code from Part 1 here!
-// !! ATTENTION !!//
-
-// An enumeration of all possible
-// states a field can have
-// Note: The order of the definition of the different states
-//       is relevant, look it up!
 enum class field_state
 {
   NONE = 0,
@@ -19,17 +13,45 @@ enum class field_state
   BLOCKED,
 };
 
+enum field_type {
+  Entrance  = 'I',
+  Trap = 'T',
+  Small_trap  = 't',
+  Wall = 'W',
+  Exit = 'O',
+  Fog = 'X',
+  Current_position = 'P',
+  Path = ' ',
+};
+
 // To properly describe the effects,
 // we need to keep track of the (accumulated) damage
 // AND the state
-// We is it sufficient to have one member variable of
+// is it sufficient to have one member variable of
 // type field_state?
 struct field_effect
 {
+
+  field_effect(const int damage, field_type type)
+  {
+  }
+
   field_effect& operator+=(const field_effect& other)
   {
-    //todo
+    switch (other.state) {
+      case field_state::BLOCKED:
+        break;
+      case field_state::DAMAGING:
+        damage += other.damage;
+        break;
+      case field_state::DEADLY:
+        damage += 100;
+        break;
+      default:
+        break;
+    }
   }
+
   // todo:
   // operators are missing here
 
@@ -88,58 +110,60 @@ private:
 
 // Note that the constructors for the derived classes do
 // not take any argument
-class maze_entrance : public  field
+class maze_entrance : public field
 {
 public:
-   maze_entrance();
-// todo
+  maze_entrance() : field(field_type::Entrance) {}
+  field_effect effect(const offset2d& o, bool is_sim = true)
+  {
+  }
 };
 
 class maze_exit : public  field
 {
-  // todo
+  maze_exit() : field(field_type::Exit) {}
 };
 
-class wall : public  field
+class wall : public field
 {
 public:
-  // todo
-};
-
-
-class path : public  field
-{
-public:
-  // todo
+  wall() : field(field_type::Wall) {}
 };
 
 
-class small_trap : public  field
+class path : public field
 {
 public:
-  // todo
-};
-
-class large_trap : public  field
-{
-public:
-  // todo
+  path() : field(field_type::Path) {}
 };
 
 
-class hidden_trap : public  field
+class small_trap : public field
 {
 public:
-  // todo
+  small_trap() : field(field_type::Small_trap) {}
+};
+
+class large_trap : public field
+{
+public:
+  large_trap() : field(field_type::Trap) {}
+};
+
+
+class hidden_trap : public field
+{
+public:
+  hidden_trap() : field(field_type::Path) {}
 };
 
 using field_ptr = std::shared_ptr<field>;
 
 // A function which converts a char to a shared pointer to a field
 // This function will be useful to generate a maze from a string
-field_ptr  to_field(char c)
+field_ptr to_field(char c)
 {
-  // todo
+  return std::make_shared<field>(c);
 }
-//fields.h stop
 
+//fields.h stop
