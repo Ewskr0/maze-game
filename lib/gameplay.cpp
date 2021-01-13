@@ -196,7 +196,7 @@ public:
   {
     if (o.norm() <= 1)
     {
-        this->set(field_type::HIDDEN_TRAP);
+        this->set(field_type::LARGE_TRAP);
       return field_effect(field_state::DAMAGING, 5);
     }
     return field_effect(field_state::NONE);
@@ -230,16 +230,3 @@ field_ptr to_field(char c)
   }
 }
 //fields.h stop
-
-/*
-enum field_type {
-  PATH = ' ',
-  ENTRANCE  = 'I',
-  TRAP = 'T',
-  SMALL_TRAP  = 't',
-  HIDDEN_TRAP ='H',
-  WALL = 'W',
-  EXIT = 'O',
-  FOG = 'X',
-  PLAYER = 'P',
-};*/
