@@ -13,47 +13,47 @@ enum class field_state
   BLOCKED,
 };
 
-enum field_type {
-  Entrance  = 'I',
-  Trap = 'T',
-  Small_trap  = 't',
-  Wall = 'W',
-  Exit = 'O',
-  Fog = 'X',
-  Current_position = 'P',
-  Path = ' ',
+enum field_type
+{
+  PATH = ' ',
+  ENTRANCE = 'I',
+  LARGE_TRAP = 'T',
+  SMALL_TRAP = 't',
+  HIDDEN_TRAP = 'H',
+  WALL = 'w',
+  EXIT = 'O',
+  FOG = 'X',
+  PLAYER = 'P',
 };
 
 // To properly describe the effects,
 // we need to keep track of the (accumulated) damage
 // AND the state
-// is it sufficient to have one member variable of
+// Why is it sufficient to have one member variable of
 // type field_state?
 struct field_effect
 {
-
-  field_effect(const int damage, field_type type)
+  field_effect &operator+=(const field_effect &other)
   {
+    this->damage += other.damage;
+    if (other.state > this->state)
+      this->state = other.state;
+    return *this;
   }
 
-  field_effect& operator+=(const field_effect& other)
+  field_effect(field_state s) : state(s), damage(0) {}
+
+  field_effect(field_state s, unsigned d) : state(s), damage(d) {}
+
+  bool operator==(const field_effect &other)
   {
-    switch (other.state) {
-      case field_state::BLOCKED:
-        break;
-      case field_state::DAMAGING:
-        damage += other.damage;
-        break;
-      case field_state::DEADLY:
-        damage += 100;
-        break;
-      default:
-        break;
-    }
+    return this->state == other.state && this->damage == other.damage;
   }
 
-  // todo:
-  // operators are missing here
+  bool operator!=(const field_effect &o)
+  {
+    return !(*this == o);
+  }
 
   field_state state = field_state::NONE;
   unsigned damage = 0;
@@ -68,15 +68,15 @@ struct field_effect
 // a field can effect the cell where it is located, but also surrounding cells.
 // To avoid storing a fields own location, we will use the relative distance
 // to the cell for which we want to evaluate effect
-class  field
+class field
 {
 public:
-   field(char c)
+  field(char c)
       : c_{c}
   {
   }
 
-  virtual ~ field()
+  virtual ~field()
   {
   }
 
@@ -96,12 +96,12 @@ public:
   // when evaluating the field for a turn of the actual game is_sim = false
   // if the AI-player evaluates the field -> is_sim is true
   // this way we can implement hidden traps that are not triggered by the AI
-  virtual field_effect effect(const offset2d& o, bool is_sim = true) const = 0;
+  virtual field_effect effect(const offset2d &o, bool is_sim = true) const = 0;
 
   // Helper function -> arg <-> zero offset
   field_effect effect() const
   {
-    return effect({0,0});
+    return effect({0, 0});
   }
 
 private:
@@ -113,48 +113,94 @@ private:
 class maze_entrance : public field
 {
 public:
-  maze_entrance() : field(field_type::Entrance) {}
-  field_effect effect(const offset2d& o, bool is_sim = true)
+  maze_entrance()
+      : field(field_type::ENTRANCE) {}
+  field_effect effect(const offset2d &offset, bool is_sim = true) const
   {
+    if (offset == offset2d(0, 0))
+      return field_effect(field_state::ENTRANCE);
+    return field_effect(field_state::NONE);
   }
 };
 
-class maze_exit : public  field
+class maze_exit : public field
 {
-  maze_exit() : field(field_type::Exit) {}
+public:
+  maze_exit() : field(field_type::EXIT) {}
+  field_effect effect(const offset2d &offset, bool is_sim = true) const
+  {
+    if (offset == offset2d(0, 0))
+      return field_effect(field_state::EXIT);
+    return field_effect(field_state::NONE);
+  }
 };
 
 class wall : public field
 {
 public:
-  wall() : field(field_type::Wall) {}
+  wall() : field(field_type::WALL) {}
+  field_effect effect(const offset2d &offset, bool is_sim = true) const
+  {
+    if (offset == offset2d(0, 0))
+      return field_effect(field_state::BLOCKED);
+    return field_effect(field_state::NONE);
+  }
 };
-
 
 class path : public field
 {
 public:
-  path() : field(field_type::Path) {}
+  path() : field(field_type::PATH) {}
+  field_effect effect(const offset2d &offset, bool is_sim = true) const
+  {
+    if (offset == offset2d(0, 0))
+      return field_effect(field_state::FREE);
+    return field_effect(field_state::NONE);
+  }
 };
-
 
 class small_trap : public field
 {
 public:
-  small_trap() : field(field_type::Small_trap) {}
+  small_trap() : field(field_type::SMALL_TRAP) {}
+  field_effect effect(const offset2d &offset, bool is_sim = true) const
+  {
+    if (offset == offset2d(0, 0))
+      return field_effect(field_state::DEADLY);
+    return field_effect(field_state::NONE);
+  }
 };
 
 class large_trap : public field
 {
 public:
-  large_trap() : field(field_type::Trap) {}
+  large_trap() : field(field_type::LARGE_TRAP) {}
+  field_effect effect(const offset2d &o, bool is_sim = true) const
+  {
+    if (o.norm() <= 1)
+      return field_effect(field_state::DAMAGING, 5);
+    return field_effect(field_state::NONE);
+  }
 };
-
 
 class hidden_trap : public field
 {
+    bool damaged = false;
+
 public:
-  hidden_trap() : field(field_type::Path) {}
+  hidden_trap() : field(field_type::HIDDEN_TRAP) {
+    this->set(field_type::PATH);
+  }
+  
+  field_effect effect(const offset2d &o, bool is_sim = true) const
+  {
+    if (o.norm() <= 1)
+    {
+        this->set(field_type::HIDDEN_TRAP);
+      return field_effect(field_state::DAMAGING, 5);
+    }
+    return field_effect(field_state::NONE);
+  }
 };
 
 using field_ptr = std::shared_ptr<field>;
@@ -163,7 +209,37 @@ using field_ptr = std::shared_ptr<field>;
 // This function will be useful to generate a maze from a string
 field_ptr to_field(char c)
 {
-  return std::make_shared<field>(c);
+  switch (c)
+  {
+  case field_type::PATH:
+    return std::make_unique<path>(path());
+  case field_type::WALL:
+    return std::make_unique<wall>(wall());
+  case field_type::ENTRANCE:
+    return std::make_unique<maze_entrance>(maze_entrance());
+  case field_type::EXIT:
+    return std::make_unique<maze_exit>(maze_exit());
+  case field_type::SMALL_TRAP:
+    return std::make_unique<small_trap>(small_trap());
+  case field_type::LARGE_TRAP:
+    return std::make_unique<large_trap>(large_trap());
+  case field_type::HIDDEN_TRAP:
+    return std::make_unique<hidden_trap>(hidden_trap());
+  default:
+    return std::make_unique<path>(path());
+  }
 }
-
 //fields.h stop
+
+/*
+enum field_type {
+  PATH = ' ',
+  ENTRANCE  = 'I',
+  TRAP = 'T',
+  SMALL_TRAP  = 't',
+  HIDDEN_TRAP ='H',
+  WALL = 'W',
+  EXIT = 'O',
+  FOG = 'X',
+  PLAYER = 'P',
+};*/

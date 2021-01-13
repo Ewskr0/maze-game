@@ -47,6 +47,10 @@ struct offset2d
         return offset2d({dx - other.dx, dy - other.dy});
     }
 
+    unsigned norm() const
+    {
+        return std::max(abs(this->dx), abs(this->dy));
+    }
     coord dx, dy;
 };
 
