@@ -33,14 +33,17 @@ public:
 
   // todo possible others for convenience.
 
-  void reset();
-
-  box_iterator *operator*(box_iterator &o)
+  void reset()
   {
-    return &o;
+    c_pos_ = point2d(x_beg_, x_end_);
   }
 
-  box_iterator &operator++()
+  point2d& operator*()
+  {
+    return c_pos_;
+  }
+
+  box_iterator& operator++()
   {
     if (c_pos_.x < x_end_ - 1)
     {
@@ -51,18 +54,19 @@ public:
       c_pos_.y++;
       c_pos_.x = x_beg_;
     }
+
+    return *this;
   }
 
-  bool operator==(const box_iterator &o) const { return !(operator!=(o)); }
+  bool operator==(const box_iterator &o) const
+  {
+    return o.c_pos_.x == c_pos_.x && o.c_pos_.y == c_pos_.y;
+  }
 
   bool operator!=(const box_iterator &o) const
   {
-    return o.x_beg_ != x_beg_ || o.y_beg_ != y_beg_ || o.x_end_ != x_end_ ||
-           o.y_end_ != y_end_;
+    return o.c_pos_.x != c_pos_.x || o.c_pos_.y != c_pos_.y;
   }
-
-  // Dereference : use the operator*() to generate a point
-  // from current iterator.
 
   // Convenience functions.
   point2d get_c_pos() const { return c_pos_; }
@@ -71,8 +75,7 @@ public:
   // corresponds to the end position.
   bool is_done() const
   {
-    // TODO.
-    return true;
+    return c_pos_.x == x_end_ && c_pos_.y == y_end_;
   }
 
 protected:
