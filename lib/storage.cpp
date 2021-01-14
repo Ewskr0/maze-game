@@ -30,9 +30,9 @@ public:
     square = std::sqrt(n);
     try {
       if (n != square * square)
-        throw 1;
-    } catch (int e) {
-      std::cout << "An exception occurred. ";
+        throw std::to_string(n) " : number of element must be a square number";
+    } catch (std::string err) {
+      std::cout << "Init: " + err << std::endl;
     }
 
     matrix = (T *)malloc(n * sizeof(T));
@@ -70,9 +70,9 @@ public:
     unsigned new_square = std::sqrt(n);
     try {
       if (n != new_square * new_square)
-        throw 1;
-    } catch (int e) {
-      std::cout << "An exception occurred. ";
+        throw std::to_string(n) + "number of elements must be a square";
+    } catch (std::string e) {
+      std::cout << "Resize: " + err;
     }
 
     T *new_matrix = (T *)malloc(n * sizeof(T));
@@ -89,9 +89,12 @@ public:
 
   T &get_point(size_t x, size_t y) {
     try {
-      return matrix[x + y * square];
-    } catch (int e) {
-      std::cout << "An exception occurred. ";
+      if (has_point(point2d(x, y))) {
+        return matrix[x + y * square];
+      }
+      throw "Point not in matrix"
+    } catch (std::string e) {
+      std::cout << e;
     }
   }
 
