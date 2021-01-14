@@ -211,8 +211,6 @@ field_ptr to_field(char c)
 {
   switch (c)
   {
-  case field_type::PATH:
-    return std::make_unique<path>(path());
   case field_type::WALL:
     return std::make_unique<wall>(wall());
   case field_type::ENTRANCE:
