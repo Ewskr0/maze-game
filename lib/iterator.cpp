@@ -2,8 +2,7 @@
 
 #include "coordinate.cpp"
 
-class box_iterator
-{
+class box_iterator {
 public:
   // The following is not strictly necessary for our code
   // however if you want to have an iterator confirming to the
@@ -33,24 +32,14 @@ public:
 
   // todo possible others for convenience.
 
-  void reset()
-  {
-    c_pos_ = point2d(x_beg_, x_end_);
-  }
+  void reset() { c_pos_ = point2d(x_beg_, x_end_); }
 
-  point2d& operator*()
-  {
-    return c_pos_;
-  }
+  point2d &operator*() { return c_pos_; }
 
-  box_iterator& operator++()
-  {
-    if (c_pos_.x < x_end_ - 1)
-    {
+  box_iterator &operator++() {
+    if (c_pos_.x < x_end_ - 1) {
       c_pos_.x++;
-    }
-    else if (c_pos_.x == x_end_ - 1 && c_pos_.y < y_end_ - 1)
-    {
+    } else if (c_pos_.x == x_end_ - 1 && c_pos_.y < y_end_ - 1) {
       c_pos_.y++;
       c_pos_.x = x_beg_;
     }
@@ -58,13 +47,11 @@ public:
     return *this;
   }
 
-  bool operator==(const box_iterator &o) const
-  {
+  bool operator==(const box_iterator &o) const {
     return o.c_pos_.x == c_pos_.x && o.c_pos_.y == c_pos_.y;
   }
 
-  bool operator!=(const box_iterator &o) const
-  {
+  bool operator!=(const box_iterator &o) const {
     return o.c_pos_.x != c_pos_.x || o.c_pos_.y != c_pos_.y;
   }
 
@@ -73,10 +60,7 @@ public:
 
   // is_done returns true if the current positions
   // corresponds to the end position.
-  bool is_done() const
-  {
-    return c_pos_.x == x_end_ && c_pos_.y == y_end_;
-  }
+  bool is_done() const { return c_pos_.x == x_end_ && c_pos_.y == y_end_; }
 
 protected:
   coord x_beg_, x_end_, y_beg_, y_end_;

@@ -1,13 +1,10 @@
 #include <cstddef>
+#include <iostream>
+#include <math.h>
+#include <string>
 
 #include "coordinate.cpp"
-
-// Macro to define YOUR_STORAGE_TYPE
-#define YOUR_STORAGE_TYPE storage
-
-// !! ATTENTION !!//
-// Copy your code from Part 1 AND Part 3 here!
-// !! ATTENTION !!//
+#include "iterator.cpp"
 
 // The storage class represents a "square matrix" of
 // arbitrary objects (the template argument T)
@@ -22,18 +19,31 @@
 
 // Make it a template class
 // todo
-class storage
-{
+template <class T> class storage {
 public:
   storage() = delete;
   // n is expected to be the total number of elements,
   // not the number of rows/cols
   // If n != (std::sqrt(n))*(std::sqrt(n))
   // a runtime_error has to be thrown
-  explicit storage(size_t n);
+  explicit storage(size_t n) {
+    square = std::sqrt(n);
+    try {
+      if (n != square * square)
+        throw 1;
+    } catch (int e) {
+      std::cout << "An exception occurred. ";
+    }
+
+    matrix = (T *)malloc(n * sizeof(T));
+  }
+
   // todo
-  storage(const storage &other) = default;
-  storage &operator=(const storage &other) = default;
+  storage(const storage &other) {
+    square = other.square;
+    matrix = other.matrix;
+  };
+  storage &operator=(const storage &other) { return square == other.square; }
 
   // Accessing a point outside of the
   // storage has to throw an exception
@@ -41,28 +51,64 @@ public:
   // We need a const and a non-const version
   // todo
 
-  coord max_coord() const;
-  // todo
+  coord max_coord() const { return square; }
 
   // Check if a given point exists within this representation
-  bool has_point(const point2d &p) const;
+  bool has_point(const point2d &p) const {
+    return p.x < square && p.y < square;
+  }
   // todo
 
   // This function should RESERVE (like the function for std::vector)
   // at least n elements (and verify that it is still a square matrix)
-  void reserve(unsigned n);
-  // todo
+  void reserve(unsigned n) { resize(square * square + n); }
 
   // This function should RESIZE (like the function for std::vector)
   // the storage to hold at least n elements
   // (and verify that it is still a square matrix)
-  void resize(unsigned n);
-  // todo
+  void resize(unsigned n) {
+    unsigned new_square = std::sqrt(n);
+    try {
+      if (n != new_square * new_square)
+        throw 1;
+    } catch (int e) {
+      std::cout << "An exception occurred. ";
+    }
+
+    T *new_matrix = (T *)malloc(n * sizeof(T));
+
+    for (size_t i = 0; i < new_square; i++) {
+      for (size_t j = 0; j < new_square; j++) {
+        if (i < square && j < square)
+          new_matrix[i + j * new_square] = matrix[i + j * square];
+      }
+    }
+    square = new_square;
+    matrix = new_matrix;
+  }
+
+  T &get_point(size_t x, size_t y) {
+    try {
+      return matrix[x + y * square];
+    } catch (int e) {
+      std::cout << "An exception occurred. ";
+    }
+  }
+
+  void set_point(size_t x, size_t y, T point) {
+    matrix[x + y * square] = point;
+  }
+
+  T &operator()(point2d point) {
+    if (has_point(point)) {
+      return get_point(point.x, point.y);
+    }
+  }
 
   // Convenience accessor
-  YOUR_STORAGE_TYPE &get_storage();
-  // todo
+  T *get_storage(){};
 
 protected:
-  // todo
+  T *matrix;
+  size_t square;
 };

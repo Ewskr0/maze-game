@@ -110,19 +110,3 @@ offset2d operator-(const point2d &p1, const point2d &p2)
 {
     return offset2d({p1.x - p2.x, p1.y - p2.y});
 }
-
-/*
-template <>
-struct std::less<point2d>
-{
-    // todo : Look up where std::less is used,
-    // then implement it
-};
-
-template <>
-struct std::less<offset2d>
-{
-    // todo : Look up where std::less is used,
-    // then implement it
-};
-*/
