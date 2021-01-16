@@ -17,8 +17,6 @@
 // to change the given signature but you can add member functions and variables
 // to the class as you see fit
 
-// Make it a template class
-// todo
 template <class T> class storage {
 public:
   storage() = delete;
@@ -29,13 +27,14 @@ public:
   explicit storage(size_t n) {
     square = std::sqrt(n);
     try {
-      if (n != square * square)
-        throw std::to_string(n) " : number of element must be a square number";
+      if (n != square * square) {
+        throw "Wrong number (" + std::to_string(n) +
+            "): number of elements must be a square number";
+      }
+      matrix = (T *)malloc(n * sizeof(T));
     } catch (std::string err) {
       std::cout << "Init: " + err << std::endl;
     }
-
-    matrix = (T *)malloc(n * sizeof(T));
   }
 
   // todo
@@ -43,7 +42,15 @@ public:
     square = other.square;
     matrix = other.matrix;
   };
-  storage &operator=(const storage &other) { return square == other.square; }
+
+  storage &operator=(const storage &s) {
+    size_t length = sizeof(s.matrix[0]) / sizeof(*s.matrix);
+    matrix = malloc(length);
+    for (size_t i = 0; i < length; ++i) {
+      matrix[i] = s.matrix[i];
+    }
+    square = s.square;
+  }
 
   // Accessing a point outside of the
   // storage has to throw an exception
@@ -57,8 +64,8 @@ public:
   bool has_point(const point2d &p) const {
     return p.x < square && p.y < square;
   }
-  // todo
 
+  // todo
   // This function should RESERVE (like the function for std::vector)
   // at least n elements (and verify that it is still a square matrix)
   void reserve(unsigned n) { resize(square * square + n); }
@@ -70,9 +77,10 @@ public:
     unsigned new_square = std::sqrt(n);
     try {
       if (n != new_square * new_square)
-        throw std::to_string(n) + "number of elements must be a square";
+        throw "Wrong number (" + std::to_string(n) +
+            "): number of elements must be a square number";
     } catch (std::string e) {
-      std::cout << "Resize: " + err;
+      std::cout << "Resize: " + e;
     }
 
     T *new_matrix = (T *)malloc(n * sizeof(T));
@@ -83,6 +91,7 @@ public:
           new_matrix[i + j * new_square] = matrix[i + j * square];
       }
     }
+
     square = new_square;
     matrix = new_matrix;
   }
@@ -92,14 +101,21 @@ public:
       if (has_point(point2d(x, y))) {
         return matrix[x + y * square];
       }
-      throw "Point not in matrix"
+      throw "Point not in matrix";
     } catch (std::string e) {
       std::cout << e;
     }
   }
 
   void set_point(size_t x, size_t y, T point) {
-    matrix[x + y * square] = point;
+    try {
+      if (has_point(point2d(x, y))) {
+        matrix[x + y * square] = point;
+      }
+      throw "Point not in matrix";
+    } catch (std::string e) {
+      std::cout << e;
+    }
   }
 
   T &operator()(point2d point) {
@@ -109,7 +125,7 @@ public:
   }
 
   // Convenience accessor
-  T *get_storage(){};
+  T *get_storage() { return matrix; };
 
 protected:
   T *matrix;
