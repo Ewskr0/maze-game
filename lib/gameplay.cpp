@@ -27,8 +27,7 @@ enum field_type {
 // To properly describe the effects,
 // we need to keep track of the (accumulated) damage
 // AND the state
-// Why is it sufficient to have one member variable of
-// type field_state?
+// Why is it sufficient to have one member variable of type field_state?
 struct field_effect {
   field_effect &operator+=(const field_effect &other) {
     this->damage += other.damage;
