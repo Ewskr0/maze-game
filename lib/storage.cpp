@@ -22,15 +22,7 @@ template <class T> class storage {
 public:
   storage() = delete;
 
-  // n is expected to be the total number of elements,
-  // not the number of rows/cols
-  // If n != (std::sqrt(n))*(std::sqrt(n))
-  // a runtime_error has to be thrown
   explicit storage(size_t n) { reserve(n); }
-
-  // todo
-  // storage(const storage &other) = default;
-  // storage &operator=(const storage &other) = default;
 
   storage(const storage &other) {
     size_t length = other.matrix.size();
@@ -41,29 +33,16 @@ public:
   }
 
   storage &operator=(const storage &s) {
-    auto length = s.matrix.size();
-    for (size_t i = 0; i < length; ++i) {
-      matrix.push_back(s.matrix[i]);
-    }
     square = s.square;
+    matrix = s.matrix;
   }
-
-  // Accessing a point outside of the
-  // storage has to throw an exception
-  // Use operator() to acces elements
-  // We need a const and a non-const version
-  // todo
 
   coord max_coord() const { return square; }
 
-  // Check if a given point exists within this representation
   bool has_point(const point2d &p) const {
     return p.x < square && p.y < square;
   }
 
-  // todo
-  // This function should RESERVE (like the function for std::vector)
-  // at least n elements (and verify that it is still a square matrix)
   void reserve(size_t n) {
     unsigned new_square = std::sqrt(n);
 
@@ -75,9 +54,6 @@ public:
     matrix.reserve(n);
   }
 
-  // This function should RESIZE (like the function for std::vector)
-  // the storage to hold at least n elements
-  // (and verify that it is still a square matrix)
   void resize(size_t n) {
     unsigned new_square = std::sqrt(n);
 
@@ -98,7 +74,6 @@ public:
 
   T &operator()(point2d point) { return get_point(point.x, point.y); }
 
-  // Convenience accessor
   T *get_storage() { return matrix; };
 
 protected:
