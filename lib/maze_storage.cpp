@@ -1,9 +1,5 @@
-#include <cmath>
-
-#include "coordinate.cpp"
-#include "gameplay.cpp"
-#include "iterator.cpp"
-#include "storage.cpp"
+#include "fields.hpp"
+#include "storage.hpp"
 
 using maze_storage = storage<field_ptr>;
 

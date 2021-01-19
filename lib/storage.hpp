@@ -4,8 +4,7 @@
 #include <string>
 #include <vector>
 
-#include "coordinate.cpp"
-#include "iterator.cpp"
+#include "coordinate.hpp"
 
 // The storage class represents a "square matrix" of
 // arbitrary objects (the template argument T)
