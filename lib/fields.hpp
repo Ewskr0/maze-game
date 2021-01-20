@@ -84,6 +84,7 @@ private:
 class maze_entrance : public field {
 public:
   maze_entrance() : field(field_type::ENTRANCE) {}
+
   field_effect effect(const offset2d &offset, bool is_sim = true) const {
     if (offset == offset2d(0, 0))
       return field_effect(field_state::ENTRANCE);
@@ -94,6 +95,7 @@ public:
 class maze_exit : public field {
 public:
   maze_exit() : field(field_type::EXIT) {}
+
   field_effect effect(const offset2d &offset, bool is_sim = true) const {
     if (offset == offset2d(0, 0))
       return field_effect(field_state::EXIT);
@@ -104,6 +106,7 @@ public:
 class wall : public field {
 public:
   wall() : field(field_type::WALL) {}
+
   field_effect effect(const offset2d &offset, bool is_sim = true) const {
     if (offset == offset2d(0, 0))
       return field_effect(field_state::BLOCKED);
@@ -114,6 +117,7 @@ public:
 class path : public field {
 public:
   path() : field(field_type::PATH) {}
+
   field_effect effect(const offset2d &offset, bool is_sim = true) const {
     if (offset == offset2d(0, 0))
       return field_effect(field_state::FREE);
@@ -124,6 +128,7 @@ public:
 class small_trap : public field {
 public:
   small_trap() : field(field_type::SMALL_TRAP) {}
+
   field_effect effect(const offset2d &offset, bool is_sim = true) const {
     if (offset == offset2d(0, 0))
       return field_effect(field_state::DEADLY);
@@ -134,6 +139,7 @@ public:
 class large_trap : public field {
 public:
   large_trap() : field(field_type::LARGE_TRAP) {}
+
   field_effect effect(const offset2d &o, bool is_sim = true) const {
     if (o.norm() <= 1)
       return field_effect(field_state::DAMAGING, 5);
