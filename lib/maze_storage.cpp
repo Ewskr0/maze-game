@@ -9,9 +9,19 @@ class maze : public maze_storage
 public:
   maze(const std::string &maze_str) : maze_storage(maze_str.length())
   {
-    for (int i = 0; i < maze_str.size(); i++)
+    field_ptr cell;
+    for (size_t i = 0; i < square; i++)
     {
-      matrix.push_back(to_field(maze_str[i]));
+      for (size_t j = 0; j < square; j++)
+      {
+        size_t pos = i * square + j;
+        field_ptr cell = to_field(maze_str[pos]);
+        if (cell.get()->to_char() == field_type::ENTRANCE)
+        {
+          entrance_position = point2d(i, j);
+        }
+        matrix.push_back(cell);
+      }
     }
   }
 
@@ -27,4 +37,6 @@ public:
     }
     std::cout << buff << std::endl;
   }
+
+  point2d entrance_position = point2d(0, 0);
 };
