@@ -1,5 +1,5 @@
-#include "fields.hpp"
-#include "storage.hpp"
+#include "fields.cpp"
+#include "storage.cpp"
 
 using maze_storage = storage<field_ptr>;
 

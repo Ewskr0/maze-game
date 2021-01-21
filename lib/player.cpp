@@ -1,3 +1,6 @@
-#include "player.hpp"
+class Player {
+  Player(bool manual);
 
-Player::Player(bool manual) { manual = manual; }
+private:
+  bool manual;
+};
