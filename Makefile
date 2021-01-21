@@ -6,7 +6,7 @@ EXE=maze
 .PHONY: all clean
 
 all:
- $(CC) $(CFLAGS) lib/main.cpp -o $(EXE)
+	$(CC) $(CFLAGS) lib/main.cpp -o $(EXE)
 
 clean:
 	rm $(EXE)

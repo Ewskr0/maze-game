@@ -1,17 +1,16 @@
-#include <iostream>
 #include <cstddef>
+#include <iostream>
 
 #include "maze_storage.cpp"
-#include "utils.cpp"
 #include "player.cpp"
+#include "utils.cpp"
 
-int main(int argc, char const *argv[])
-{
+int main(int argc, char const *argv[]) {
   std::cout << "Maze Game" << std::endl;
 
-  if (argc < 2)
-  {
+  if (argc < 2) {
     std::cout << "No file." << std::endl;
+    return 1;
   }
 
   // Get maze string.
@@ -19,13 +18,10 @@ int main(int argc, char const *argv[])
 
   // Init maze.
   maze m_maze(maze_str);
-  if (&m_maze == NULL)
-    throw "Error during initialization.";
-
+  // init player
   Player player(false, m_maze.entrance_position);
-  //std::cout << "player pos:" << player.pos << std::endl;
-  std::cout << "player hp:" << player.hp << std::endl;
 
   m_maze.display(player.pos);
+
   return 0;
 }
