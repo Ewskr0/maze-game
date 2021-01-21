@@ -25,17 +25,24 @@ public:
     }
   }
 
-  void display()
+  void display(point2d player)
   {
     std::string buff;
-    buff.push_back(matrix[0].get()->to_char());
-    for (int i = 1; i < matrix.size(); i++)
+    for (int i = 0; i < square; i++)
     {
-      buff.push_back(matrix[i].get()->to_char());
-      if ((i + 1) % square == 0)
-        buff.push_back('\n');
+      for (int j = 0; j < square; j++)
+      {
+          size_t pos = i * square + j;
+
+          if (player.operator==(point2d(i, j)))
+            buff.push_back(field_type::PLAYER);
+          else
+            buff.push_back(matrix[pos].get()->to_char());
+      }
+          buff.push_back('\n');
+
     }
-    std::cout << buff << std::endl;
+  std::cout << buff << std::endl;
   }
 
   point2d entrance_position = point2d(0, 0);

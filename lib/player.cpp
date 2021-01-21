@@ -1,13 +1,18 @@
 #include "coordinate.hpp"
 
 class Player {
-  Player(bool manual) {
+  public:
+  Player(bool isAi, point2d start_pos) {
     hp = 100;
-    manual = manual;
+    ai = isAi;
+    pos = start_pos;
   }
 
-private:
-  bool manual;
+  void move(point2d new_pos) {
+    pos = new_pos;
+  }
+
+  bool ai;
   unsigned hp;
-  point2d pos;
+  point2d pos = point2d(0,0);
 };
