@@ -1,3 +1,4 @@
+#include <iostream>
 #include "fields.cpp"
 #include "storage.cpp"
 
@@ -12,5 +13,18 @@ public:
     {
       matrix.push_back(to_field(maze_str[i]));
     }
+  }
+
+  void display()
+  {
+    std::string buff;
+    buff.push_back(matrix[0].get()->to_char());
+    for (int i = 1; i < matrix.size(); i++)
+    {
+      buff.push_back(matrix[i].get()->to_char());
+      if ((i + 1) % square == 0)
+        buff.push_back('\n');
+    }
+    std::cout << buff << std::endl;
   }
 };
