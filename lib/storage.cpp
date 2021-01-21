@@ -44,7 +44,6 @@ public:
 
   void reserve(size_t n) {
     unsigned new_square = std::sqrt(n);
-
     if (n != new_square * new_square) {
       throw std::runtime_error("Wrong number (" + std::to_string(n) +
                                "): number of elements must be a square number");
@@ -65,10 +64,10 @@ public:
   }
 
   T &get_point(size_t x, size_t y) {
-    size_t pos = x + y * square;
+    size_t pos = x * square + y;
     if (pos > square * square)
       throw std::runtime_error("Non-existing element");
-    return matrix[x + y * square];
+    return matrix[x * square + y];
   }
 
   T &operator()(point2d point) { return get_point(point.x, point.y); }
