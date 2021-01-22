@@ -48,6 +48,7 @@ public:
           buff.push_back(field_type::FOG);
         else
           buff.push_back(matrix[pos].get()->to_char());
+         buff.push_back(' ');
       }
       buff.push_back('\n');
     }
