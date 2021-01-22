@@ -39,7 +39,7 @@ void displayMovements()
 movement_direction getDirection()
 {
   movement_direction direction = movement_direction::NONE;
-  std::cout << "Press a valide key to continue..." << std::endl;
+  std::cout << "Press a valid key to continue..." << std::endl;
   do
   {
     switch (getchar())
