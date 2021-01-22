@@ -70,6 +70,8 @@ struct point2d {
     return *this;
   }
 
+  unsigned norm() const { return std::max(abs(this->x), abs(this->y)); }
+
   coord x, y;
 };
 

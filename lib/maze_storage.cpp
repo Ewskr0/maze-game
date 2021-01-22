@@ -44,6 +44,8 @@ public:
 
         if (player.operator==(point2d(j, i)))
           buff.push_back(field_type::PLAYER);
+        else if(operator-(player,point2d(j,i)).norm() > 2)
+          buff.push_back(field_type::FOG);
         else
           buff.push_back(matrix[pos].get()->to_char());
       }
