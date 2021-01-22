@@ -1,14 +1,25 @@
 #include "coordinate.hpp"
 
-class Player {
+class player
+{
 public:
-  Player(bool isAi, point2d start_pos) {
+  player(bool isAi, point2d start_pos)
+  {
     hp = 100;
     ai = isAi;
     pos = start_pos;
   }
 
   void move(point2d new_pos) { pos = new_pos; }
+
+  void displayHP()
+  {
+    std::cout << "HP: " << hp << std::endl;
+  }
+
+  bool isAlive(){
+    return hp > 0;
+  }
 
   bool ai;
   unsigned hp;
