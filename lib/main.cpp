@@ -55,7 +55,7 @@ void startGame(maze m_maze, player *m_player)
   size_t pos;
   do
   {
-
+    m_player->displayHP();
     m_maze.display(m_player->pos);
 
     cell_type = movePlayer(m_maze, m_player);
