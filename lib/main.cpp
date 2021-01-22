@@ -32,6 +32,8 @@ char movePlayer(maze m_maze, player *m_player)
     case movement_direction::RIGHT:
       m_pos.x++;
       break;
+    default:
+      break;
     }
     m_field = m_maze.getField(m_pos);
     if (m_field.get()->to_char() != field_type::WALL)
@@ -52,7 +54,6 @@ void startGame(maze m_maze, player *m_player)
 {
   bool isPlaying = true;
   char cell_type;
-  size_t pos;
   do
   {
     m_player->displayHP();
