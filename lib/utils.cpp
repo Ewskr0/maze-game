@@ -55,7 +55,6 @@ movement_direction getDirection() {
     default:
       break;
     }
-
   } while (direction == movement_direction::NONE);
   return direction;
 }

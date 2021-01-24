@@ -1,6 +1,6 @@
+#include <cmath>
 #include <cstddef>
 #include <iostream>
-#include <math.h>
 #include <string>
 #include <vector>
 
@@ -63,10 +63,13 @@ public:
     matrix.resize(n);
   }
 
+  size_t getSquare() { return square; }
+
   T &get_point(size_t x, size_t y) {
     size_t pos = x * square + y;
-    if (pos > square * square)
+    if (pos > square * square) {
       throw std::runtime_error("Non-existing element");
+    }
     return matrix[x * square + y];
   }
 

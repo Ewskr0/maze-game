@@ -34,12 +34,13 @@ public:
       for (size_t j = 0; j < square; j++) {
         size_t pos = i * square + j;
 
-        if (player.operator==(point2d(j, i)))
+        if (player.operator==(point2d(j, i))) {
           buff.push_back(field_type::PLAYER);
-        else if (operator-(player, point2d(j, i)).norm() > 2)
+        } else if (operator-(player, point2d(j, i)).norm() > 2) {
           buff.push_back(field_type::FOG);
-        else
+        } else {
           buff.push_back(matrix[pos].get()->to_char());
+        }
         buff.push_back(' ');
       }
       buff.push_back('\n');

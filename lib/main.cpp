@@ -1,6 +1,6 @@
 #include <cstddef>
 #include <iostream>
-#include <utility>
+#include <tuple>
 
 #include "maze_storage.cpp"
 #include "player.cpp"
@@ -43,7 +43,6 @@ field_ptr movePlayer(maze m_maze, player *m_player) {
       std::cout << "effect: " << field_state_to_string(effect.state)
                 << std::endl;
       m_player->applyFieldEffect(effect);
-
     } else {
       std::cout << "This cell is blocked." << std::endl;
     }
@@ -76,12 +75,12 @@ void startGame(maze m_maze, player *m_player) {
 }
 
 // Init the maze and the player.
-std::pair<maze, player> initGame(char const *file_path) {
+std::tuple<maze, player> initGame(char const *file_path) {
   displayDescription();
   std::string maze_str = parseFile(file_path);
   maze m_maze(maze_str);
   player m_player(false, m_maze.entrance_position);
-  return std::make_pair(m_maze, m_player);
+  return std::make_tuple(m_maze, m_player);
 }
 
 int main(int argc, char const *argv[]) {
@@ -90,8 +89,8 @@ int main(int argc, char const *argv[]) {
     return 1;
   }
 
-  std::pair<maze, player> init = initGame(argv[1]);
-  startGame(init.first, &init.second);
+  auto [m_maze, m_player] = initGame(argv[1]);
+  startGame(m_maze, &m_player);
 
   return 0;
 }
