@@ -2,6 +2,7 @@
 
 #include "coordinate.hpp"
 #include "iterator.cpp"
+#include "utils.cpp"
 
 class player {
 public:
@@ -73,7 +74,6 @@ public:
     movement_direction direction;
     bool player_moved = false;
     field_ptr m_field;
-    point2d m_pos = point2d(0, 0);
     displayMovements();
 
     do {
