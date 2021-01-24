@@ -86,8 +86,9 @@ public:
   maze_entrance() : field(field_type::ENTRANCE) {}
 
   field_effect effect(const offset2d &offset, bool is_sim = true) const {
-    if (offset == offset2d(0, 0))
+    if (offset == offset2d(0, 0)) {
       return field_effect(field_state::ENTRANCE);
+    }
     return field_effect(field_state::NONE);
   }
 };
@@ -97,8 +98,9 @@ public:
   maze_exit() : field(field_type::EXIT) {}
 
   field_effect effect(const offset2d &offset, bool is_sim = true) const {
-    if (offset == offset2d(0, 0))
+    if (offset == offset2d(0, 0)) {
       return field_effect(field_state::EXIT);
+    }
     return field_effect(field_state::NONE);
   }
 };
@@ -119,8 +121,10 @@ public:
   path() : field(field_type::PATH) {}
 
   field_effect effect(const offset2d &offset, bool is_sim = true) const {
-    if (offset == offset2d(0, 0))
+    if (offset == offset2d(0, 0)) {
+      std::cout << "path" << std::endl;
       return field_effect(field_state::FREE);
+    }
     return field_effect(field_state::NONE);
   }
 };
