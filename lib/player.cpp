@@ -59,12 +59,11 @@ public:
     point2d lower_left(llx, lly);
     point2d upper_right(urx, ury);
 
-    box_iterator it(lower_left, upper_right);
-    point2d itpos = *it;
-    for (; *it != upper_right; ++it) {
-      field_ptr field = m_maze.getField(itpos);
-      if (field.get()->to_char() == field_type::LARGE_TRAP) {
-        field_effect effect = field.get()->effect(/* offset */);
+    for (coord i = lower_left.y; i < upper_right.y; i++) {
+      for (coord j = lower_left.x; j < upper_right.x; j++) {
+        field_ptr field = m_maze.getField(point2d(j, i));
+        offset2d offset = operator-(pos, point2d(j, i));
+        field_effect effect = field.get()->effect(offset);
         applyFieldEffect(effect);
       }
     }

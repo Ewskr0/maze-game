@@ -39,10 +39,7 @@ field_ptr movePlayer(maze m_maze, player *m_player) {
     if (m_field.get()->to_char() != field_type::WALL) {
       player_moved = true;
       m_player->pos = m_pos;
-      field_effect effect = m_field.get()->effect();
-      std::cout << "effect: " << field_state_to_string(effect.state)
-                << std::endl;
-      m_player->applyFieldEffect(effect);
+      m_player->observe(m_maze);
     } else {
       std::cout << "This cell is blocked." << std::endl;
     }
@@ -63,7 +60,6 @@ void startGame(maze m_maze, player *m_player) {
     cell_type = movePlayer(m_maze, m_player);
     isPlaying =
         m_player->isAlive() && cell_type.get()->to_char() != field_type::EXIT;
-
   } while (isPlaying);
 
   m_maze.display(m_player->pos);
