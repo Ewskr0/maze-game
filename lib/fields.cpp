@@ -1,4 +1,5 @@
 #include <memory>
+#include <string>
 
 #include "coordinate.hpp"
 
@@ -11,6 +12,35 @@ enum class field_state {
   DEADLY,
   BLOCKED,
 };
+
+std::string field_state_to_string(field_state f) {
+  switch (f) {
+  case field_state::NONE:
+    return "NONE";
+    break;
+  case field_state::FREE:
+    return "FREE";
+    break;
+  case field_state::ENTRANCE:
+    return "ENTRANCE";
+    break;
+  case field_state::EXIT:
+    return "EXIT";
+    break;
+  case field_state::DAMAGING:
+    return "DAMAGING";
+    break;
+  case field_state::DEADLY:
+    return "DEADLY";
+    break;
+  case field_state::BLOCKED:
+    return "BLOCKED";
+    break;
+  default:
+    return "INALID";
+    break;
+  }
+}
 
 enum field_type {
   PATH = ' ',

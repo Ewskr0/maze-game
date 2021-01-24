@@ -3,8 +3,7 @@
 #include <streambuf>
 #include <string>
 
-enum movement_direction
-{
+enum movement_direction {
   UP = 'w',
   LEFT = 'a',
   DOWN = 's',
@@ -12,11 +11,9 @@ enum movement_direction
   NONE = 'X'
 };
 
-std::string parseFile(std::string path)
-{
+std::string parseFile(std::string path) {
   std::ifstream file(path);
-  if (!file.is_open())
-  {
+  if (!file.is_open()) {
     throw "Could not open file";
   }
 
@@ -28,32 +25,31 @@ std::string parseFile(std::string path)
 }
 
 // Displays possible movements.
-void displayMovements()
-{
-  std::string movements =
-      "W: up,  A:left,  S: down, D: right";
+void displayMovements() {
+  std::string movements = "W: up,  A:left,  S: down, D: right";
   std::cout << movements << std::endl;
 }
 
 // Returns player's direction.
-movement_direction getDirection()
-{
+movement_direction getDirection() {
   movement_direction direction = movement_direction::NONE;
   std::cout << "Press a valid key to continue..." << std::endl;
-  do
-  {
-    switch (getchar())
-    {
-    case 'w': case 'W':
+  do {
+    switch (getchar()) {
+    case 'w':
+    case 'W':
       direction = movement_direction::UP;
       break;
-    case 'a': case 'A':
+    case 'a':
+    case 'A':
       direction = movement_direction::LEFT;
       break;
-    case 's': case 'S':
+    case 's':
+    case 'S':
       direction = movement_direction::DOWN;
       break;
-    case 'd': case 'D':
+    case 'd':
+    case 'D':
       direction = movement_direction::RIGHT;
       break;
     default:
@@ -65,8 +61,7 @@ movement_direction getDirection()
 }
 
 // Displays the initial decription.
-void displayDescription()
-{
+void displayDescription() {
   std::string description =
       "==================== Maze Game ====================\n"
       "I: entrance,    O: exit,       P: current position,\n"
@@ -77,8 +72,7 @@ void displayDescription()
 }
 
 // Displays the win message.
-void displayWinMessage()
-{
+void displayWinMessage() {
   std::string description =
       "==================== Maze Game ====================\n"
       "                    Player won !\n"
@@ -87,11 +81,10 @@ void displayWinMessage()
 }
 
 // Displays the loose message.
-void displayLooseMessage()
-{
+void displayLooseMessage() {
   std::string description =
       "==================== Maze Game ====================\n"
-      "                    Player is dead ! !\n"
+      "                    Player is dead !!\n"
       "===================================================\n";
   std::cout << description << std::endl;
 }

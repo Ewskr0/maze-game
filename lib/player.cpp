@@ -16,6 +16,19 @@ public:
 
   bool isAlive() { return hp > 0; }
 
+  void applyFieldEffect(field_effect f) {
+    switch (f.state) {
+    case field_state::DEADLY:
+      hp = 0;
+      break;
+    case field_state::DAMAGING:
+      hp -= f.damage;
+      break;
+    default:
+      break;
+    }
+  }
+
   bool ai;
   unsigned hp;
   point2d pos = point2d(0, 0);

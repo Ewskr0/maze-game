@@ -40,8 +40,10 @@ field_ptr movePlayer(maze m_maze, player *m_player) {
       player_moved = true;
       m_player->pos = m_pos;
       field_effect effect = m_field.get()->effect();
-      std::cout << "effect: " << effect.damage << std::endl;
-      // TODO: apply damages.
+      std::cout << "effect: " << field_state_to_string(effect.state)
+                << std::endl;
+      m_player->applyFieldEffect(effect);
+
     } else {
       std::cout << "This cell is blocked." << std::endl;
     }
