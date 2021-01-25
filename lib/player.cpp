@@ -32,32 +32,27 @@ public:
   }
 
   void observe(maze m_maze) {
-    coord llx = pos.x - 2;
-    coord lly = pos.y - 2;
+    point2d lower_left(pos.x - 2, pos.y - 2);
 
-    if (llx < 0) {
-      llx = 0;
+    if (lower_left.x < 0) {
+      lower_left.x = 0;
     }
 
-    if (lly < 0) {
-      lly = 0;
+    if (lower_left.y < 0) {
+      lower_left.y = 0;
     }
 
-    coord urx = pos.x + 2;
-    coord ury = pos.y + 2;
+    point2d upper_right(pos.x + 2, pos.y + 2);
 
     coord max = m_maze.max_coord();
 
-    if (urx > max) {
-      urx = max;
+    if (upper_right.x > max) {
+      upper_right.x = max;
     }
 
-    if (ury > max) {
-      ury = max;
+    if (upper_right.y > max) {
+      upper_right.y = max;
     }
-
-    point2d lower_left(llx, lly);
-    point2d upper_right(urx, ury);
 
     for (coord i = lower_left.y; i < upper_right.y; i++) {
       for (coord j = lower_left.x; j < upper_right.x; j++) {
@@ -69,6 +64,7 @@ public:
     }
   }
 
+  // Moves the player position and applies damages.
   field_ptr move(maze m_maze) {
     movement_direction direction;
     bool player_moved = false;
@@ -98,8 +94,7 @@ public:
       m_field = m_maze.getField(pos);
       if (m_field.get()->to_char() != field_type::WALL) {
         player_moved = true;
-        field_effect effect = m_field.get()->effect();
-        applyFieldEffect(effect);
+        observe(m_maze);
       } else {
         std::cout << "This cell is blocked." << std::endl;
       }

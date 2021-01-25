@@ -6,48 +6,6 @@
 #include "player.cpp"
 #include "utils.cpp"
 
-// Moves the player position and applies damages.
-field_ptr movePlayer(maze m_maze, player *m_player) {
-  movement_direction direction;
-  bool player_moved = false;
-  field_ptr m_field;
-  point2d m_pos = point2d(0, 0);
-  displayMovements();
-
-  do {
-    m_pos = m_player->pos;
-    direction = getDirection();
-
-    switch (direction) {
-    case movement_direction::UP:
-      m_pos.y--;
-      break;
-    case movement_direction::LEFT:
-      m_pos.x--;
-      break;
-    case movement_direction::DOWN:
-      m_pos.y++;
-      break;
-    case movement_direction::RIGHT:
-      m_pos.x++;
-      break;
-    default:
-      break;
-    }
-
-    m_field = m_maze.getField(m_pos);
-    if (m_field.get()->to_char() != field_type::WALL) {
-      player_moved = true;
-      m_player->pos = m_pos;
-      m_player->observe(m_maze);
-    } else {
-      std::cout << "This cell is blocked." << std::endl;
-    }
-  } while (!player_moved);
-
-  return m_field;
-}
-
 // PLays until the player wins or dies.
 void startGame(maze m_maze, player *m_player) {
   bool isPlaying = true;
@@ -56,8 +14,7 @@ void startGame(maze m_maze, player *m_player) {
   do {
     m_player->displayHP();
     m_maze.display(m_player->pos);
-
-    cell_type = movePlayer(m_maze, m_player);
+    cell_type = m_player->move(m_maze);
     isPlaying =
         m_player->isAlive() && cell_type.get()->to_char() != field_type::EXIT;
   } while (isPlaying);

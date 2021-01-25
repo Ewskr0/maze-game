@@ -119,9 +119,8 @@ public:
 
   field_effect effect(const offset2d &offset, bool is_sim = true) const {
     UNUSED(is_sim);
-    if (offset == offset2d(0, 0)) {
+    if (offset == offset2d(0, 0))
       return field_effect(field_state::ENTRANCE);
-    }
     return field_effect(field_state::NONE);
   }
 };
@@ -132,9 +131,8 @@ public:
 
   field_effect effect(const offset2d &offset, bool is_sim = true) const {
     UNUSED(is_sim);
-    if (offset == offset2d(0, 0)) {
+    if (offset == offset2d(0, 0))
       return field_effect(field_state::EXIT);
-    }
     return field_effect(field_state::NONE);
   }
 };
@@ -159,10 +157,8 @@ public:
   field_effect effect(const offset2d &offset, bool is_sim = true) const {
     UNUSED(is_sim);
 
-    if (offset == offset2d(0, 0)) {
-      std::cout << "path" << std::endl;
+    if (offset == offset2d(0, 0))
       return field_effect(field_state::FREE);
-    }
     return field_effect(field_state::NONE);
   }
 };
