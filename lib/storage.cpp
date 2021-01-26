@@ -65,15 +65,15 @@ public:
 
   size_t getSquare() { return square; }
 
-  T &get_point(size_t x, size_t y) {
+  T &get_point(size_t y, size_t x) {
     size_t pos = x * square + y;
     if (pos > square * square) {
       throw std::runtime_error("Non-existing element");
     }
-    return matrix[x * square + y];
+    return matrix[y * square + x];
   }
 
-  T &operator()(point2d point) { return get_point(point.x, point.y); }
+  T &operator()(point2d point) { return get_point(point.y, point.x); }
 
   T *get_storage() { return matrix; };
 

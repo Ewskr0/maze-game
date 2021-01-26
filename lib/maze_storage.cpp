@@ -1,3 +1,5 @@
+#pragma once
+
 #include <iostream>
 
 #include "fields.cpp"
@@ -28,18 +30,21 @@ public:
   }
 
   // Displays the maze.
-  void display(point2d player) {
+  void display(point2d player, bool ia) {
     std::string buff;
     for (size_t i = 0; i < square; i++) {
       for (size_t j = 0; j < square; j++) {
         size_t pos = i * square + j;
         field_ptr field = getField(point2d(j, i));
+
         if (player.operator==(point2d(j, i))) {
           buff.push_back(field_type::PLAYER);
-        } else if (!field.get()->visited() 
-        && operator-(player, point2d(j, i)).norm() > 2) {
+        } 
+        else if (!field.get()->visited() 
+        && operator-(player, point2d(j, i)).norm() > 2 && !ia) {
           buff.push_back(field_type::FOG);
-        } else {
+        } 
+        else {
           field.get()->set_visited();
           buff.push_back(matrix[pos].get()->to_char());
         }
