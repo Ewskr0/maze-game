@@ -2,6 +2,7 @@
 #include <iostream>
 #include <unistd.h>
 
+#include "ia.hpp"
 #include "maze_storage.hpp"
 #include "player.hpp"
 
