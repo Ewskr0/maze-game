@@ -60,6 +60,7 @@ enum field_type
   EXIT = 'O',
   FOG = 'X',
   PLAYER = 'P',
+  IA = '*',
 };
 
 struct field_effect

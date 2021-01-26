@@ -37,6 +37,15 @@ std::tuple<maze, player> initGame(char const *file_path, bool ia) {
   return std::make_tuple(m_maze, m_player);
 }
 
+void startIA(maze *m_maze,player m_player)
+{
+  if(solve(m_maze,m_player)) {
+    displayWinMessage();
+  } else {
+    displayLooseMessage();
+  }
+}
+
 int main(int argc, char const *argv[]) {
   if (argc < 2) {
     std::cout << "No file." << std::endl;
@@ -47,7 +56,7 @@ int main(int argc, char const *argv[]) {
   if(argc == 2)
     startGame(m_maze, &m_player);
   else 
-    solve(&m_maze, m_player);
+    startIA(&m_maze, m_player);
   return 0;
 }
 
