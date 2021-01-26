@@ -5,7 +5,7 @@
 
 ```bash
 make
-./maze <path to maze>
+./maze <path to maze> [--ia]
 ```
 
 You can use files located in `test/*.txt`
