@@ -2,10 +2,10 @@
 #include <iostream>
 #include <tuple>
 
-#include "maze_storage.cpp"
-#include "player.cpp"
-#include "utils.cpp"
-#include "ia.cpp"
+#include "ia.hpp"
+#include "maze_storage.hpp"
+#include "player.hpp"
+#include "utils.hpp"
 
 // PLays until the player wins or dies.
 void startGame(maze m_maze, player *m_player) {
@@ -37,9 +37,8 @@ std::tuple<maze, player> initGame(char const *file_path, bool ia) {
   return std::make_tuple(m_maze, m_player);
 }
 
-void startIA(maze *m_maze,player m_player)
-{
-  if(solve(m_maze,m_player)) {
+void startIA(maze *m_maze, player m_player) {
+  if (solve(m_maze, m_player)) {
     displayWinMessage();
   } else {
     displayLooseMessage();
@@ -52,11 +51,10 @@ int main(int argc, char const *argv[]) {
     return 1;
   }
   auto [m_maze, m_player] = initGame(argv[1], argc > 2);
-  
-  if(argc == 2)
+
+  if (argc == 2)
     startGame(m_maze, &m_player);
-  else 
+  else
     startIA(&m_maze, m_player);
   return 0;
 }
-

@@ -1,16 +1,9 @@
-#pragma once
 #include <fstream>
 #include <iostream>
 #include <streambuf>
 #include <string>
 
-enum movement_direction {
-  UP = 'w',
-  LEFT = 'a',
-  DOWN = 's',
-  RIGHT = 'd',
-  NONE = 'X'
-};
+#include "utils.hpp"
 
 std::string parseFile(std::string path) {
   std::ifstream file(path);
