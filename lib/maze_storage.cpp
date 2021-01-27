@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 
 #include "fields.hpp"
 #include "maze_storage.hpp"

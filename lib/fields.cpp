@@ -33,6 +33,7 @@ std::string field_state_to_string(field_state f) {
 }
 
 char field::to_char() const { return c_; }
+
 void field::set(char c) const { c_ = c; }
 
 void field::set_visited() const {

@@ -1,12 +1,8 @@
 #pragma once
 
-#include <iostream>
-
 #include "coordinate.hpp"
 #include "fields.hpp"
-#include "iterator.hpp"
 #include "maze_storage.hpp"
-#include "utils.hpp"
 
 class player {
 public:

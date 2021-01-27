@@ -1,7 +1,5 @@
 #pragma once
 
-#include <iostream>
-
 #include "fields.hpp"
 #include "storage.hpp"
 
