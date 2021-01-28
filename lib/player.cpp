@@ -1,5 +1,7 @@
 #include "player.hpp"
 
+#include "utils.hpp"
+
 player::player(bool isAi, point2d start_pos) {
   hp = 100;
   ai = isAi;
@@ -18,7 +20,10 @@ void player::applyFieldEffect(field_effect f) {
     hp = 0;
     break;
   case field_state::DAMAGING:
-    hp -= f.damage;
+    if (f.damage > hp)
+      hp = 0;
+    else
+      hp -= f.damage;
     break;
   default:
     break;

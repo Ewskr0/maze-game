@@ -22,7 +22,8 @@ void maze::display(point2d player, bool ia) {
       } else if (!field.get()->visited() &&
                  operator-(player, point2d(j, i)).norm() > 2 && !ia) {
         buff.push_back(field_type::FOG);
-      } else {
+      } 
+      else {
         field.get()->set_visited();
         buff.push_back(matrix[pos].get()->to_char());
       }

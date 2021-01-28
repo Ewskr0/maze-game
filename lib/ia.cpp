@@ -16,7 +16,11 @@ bool free_field(size_t y, size_t x, maze *m_maze) {
 }
 
 bool solve(maze *m_maze, player m_player) {
-  // If you want progressive update, uncomment these lines...
+
+  m_player.observe(*m_maze);
+  if(!m_player.isAlive())
+    return false;
+    
   m_maze->display(m_player.pos, true);
 
   // Check if we have reached our goal.

@@ -22,6 +22,6 @@ public:
   field_ptr move(maze m_maze);
 
   bool ai;
-  unsigned hp;
+  size_t hp;
   point2d pos = point2d(0, 0);
 };
