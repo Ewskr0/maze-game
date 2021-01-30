@@ -17,3 +17,8 @@ The option `--ai` activates the AI
 * AI that resolves that maze
 * No memory leak
 * Modular code
+
+## Authors
+
+* Landry Monga
+* Ewann Pelle
